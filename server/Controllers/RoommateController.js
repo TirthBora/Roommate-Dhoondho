@@ -25,43 +25,30 @@ export const createRoommate = async (req, res) => {
 
 
 
-  const { userId } = req.body;
+  const {userId} = req.body;
 
   const newRoommate = new needRoommateModel(req.body);
 
 
 
   try {
-
-    if (id === userId) {
+    if (id===userId) {
       console.log(newRoommate.remaining,newRoommate.preferredBed);
       if(newRoommate.remaining>newRoommate.preferredBed){
         res.status(401).json("Cannot have more availabilities than room size");
         return;
 
       }
-
       await newRoommate.save();
-
-
-      
-
       res.status(200).json("Roommate created!");
-
-    } else {
-
+    } 
+    else {
       res.status(403).json("Action forbidden");
-
     }
-
   }
-
   catch (error) {
-
     res.status(500).json(error);
-
   }
-
 };
 
 
@@ -82,8 +69,8 @@ export const getRoommate = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    if (id === userId) {
-      const Roommate = await needRoommateModel.find({userId: id});
+    if (userId === id) {
+      const Roommate = await needRoommateModel.find({"userId":id});
       res.status(200).json(Roommate);
     } else {
       res.status(403).json("Action forbidden");
@@ -95,84 +82,35 @@ export const getRoommate = async (req, res) => {
 
 // Get all Roommates
 export const getAllRoommate = async (req, res) => {
-
-  // Check if the request has an 'Origin' header
-  const url = req.get('Origin');
-  console.log('Domain:', url);
-
-  if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
-    res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
-    return;
-  }
-
   try {
-    const page = parseInt(req.query.page) -1 || 0;
-    const limit = parseInt(req.query.limit) || 10000000;
+    // 1. Pagination & Sorting setup
+    const page = parseInt(req.query.page) - 1 || 0;
+    const limit = parseInt(req.query.limit) || 10; 
     const skip = page * limit;
+    let sort = req.query.sort ? req.query.sort.split(",") : ["createdAt", "desc"];
+    let sortBy = { [sort[0]]: sort[1] === "asc" ? 1 : -1 };
 
-    let sort = req.query.sort || "createdAt";
+    // 2. Build the Query Object dynamically
+    let query = {};
 
-    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
-    let sortBy = {};
-    if (sort[1]) {
-      sortBy[sort[0]] = sort[1];
-    } else {
-      sortBy[sort[0]] = "asc";
+    if (req.query.gender && req.query.gender !== "All") {
+      query.gender = { $in: req.query.gender.split(",") };
     }
 
-    let gender = req.query.gender || "All";
-    const genderOptions = ["M", "F"];
+    if (req.query.year && req.query.year !== "All") {
+      query.year = { $in: req.query.year.split(",") };
+    }
 
-    gender === "All"
-      ? (gender = [...genderOptions])
-      : (gender = gender.split(","));
+    if (req.query.preferredBlock && req.query.preferredBlock !== "All") {
+      query.preferredBlock = { $in: req.query.preferredBlock.split(",") };
+    }
 
-    let year = req.query.year || "All";
-    const yearOptions = [1, 2, 3, 4];
-
-    year === "All" ? (year = [...yearOptions]) : (year = year.split(","));
-
-    let preferredBlock = req.query.preferredBlock || "All";
-
-    const blockOptions = [
-      "A",
-      "B",
-      "B ANNEX",
-      "C",
-      "D",
-      "D ANNEX",
-      "E",
-      "F",
-      "G",
-      "H",
-      "J",
-      "K",
-      "L",
-      "M",
-      "M ANNEX",
-      "N",
-      "P",
-      "Q",
-      "R",
-      "S",
-      "T",
-    ];
-
-    preferredBlock === "All"
-      ? (preferredBlock = [...blockOptions])
-      : (preferredBlock = preferredBlock.split(","));
-
+    // 3. Execute query
     const roommates = await needRoommateModel
-      .where("gender")
-      .in([...gender])
-      .where("year")
-      .in([...year])
-      .where("preferredBlock")
-      .in([...preferredBlock])
+      .find(query) // Use the dynamic query object here
       .sort(sortBy)
       .skip(skip)
-      .limit(limit)
-      .exec();
+      .limit(limit);
 
     res.status(200).json(roommates);
   } catch (error) {
@@ -193,12 +131,14 @@ export const updateRoommate = async (req, res) => {
     return;
   }
 
-  const { userId } = req.body;
-
+  const { userId,roomId } = req.body;
+  console.log(userId);
   try {
-    const Roommate = await needRoommateModel.findById(id);
-    if (Roommate.userId === userId) {
-      await Roommate.updateOne({ $set: req.body });
+    const roommate = await needRoommateModel.findById(roomId);
+    console.log(roommate);
+    console.log(roommate.userId,userId);
+    if (roommate.userId.toString() === id) {
+      await roommate.updateOne({ $set: req.body });
       res.status(200).json("Roommate Updated");
     } else {
       res.status(403).json("Action forbidden");
@@ -210,27 +150,32 @@ export const updateRoommate = async (req, res) => {
 
 // Delete a Roommate
 export const deleteRoommate = async (req, res) => {
-  const id = req.params.id;
-
-  // Check if the request has an 'Origin' header
   const url = req.get('Origin');
-  console.log('Domain:', url);
+  const id = req.params.id;
 
   if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
     res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
     return;
   }
 
-  const { userId } = req.body;
+  const { userId, roomId } = req.body;
 
   try {
-    const Roommate = await needRoommateModel.findById(id);
-    if (Roommate.userId.toString() === userId) {
-      await Roommate.deleteOne();
+    
+    const roommate = await needRoommateModel.findById(roomId);
+
+    if (!roommate) {
+      res.status(404).json("Roommate record not found");
+      return;
+    }
+    console.log(roommate.userId,userId);
+    if (roommate.userId.toString() === id) {
+      await roommate.deleteOne();
       res.status(200).json("Roommate deleted successfully");
     } else {
-      res.status(403).json("Action forbidden");
+      res.status(403).json("Action forbidden: You do not own this record");
     }
+    
   } catch (error) {
     res.status(500).json(error);
   }
