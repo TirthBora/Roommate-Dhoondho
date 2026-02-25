@@ -2,32 +2,69 @@ import needRoommateModel from "../Models/needRoommate.js";
 
 // Create new Roommate
 export const createRoommate = async (req, res) => {
+
   const id = req.params.userid;
 
+
+
   // Check if the request has an 'Origin' header
+
   const url = req.get('Origin');
+
   console.log('Domain:', url);
 
+
+
   if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
+
     res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
+
     return;
+
   }
+
+
 
   const { userId } = req.body;
+
   const newRoommate = new needRoommateModel(req.body);
 
+
+
   try {
+
     if (id === userId) {
+      console.log(newRoommate.remaining,newRoommate.preferredBed);
+      if(newRoommate.remaining>newRoommate.preferredBed){
+        res.status(401).json("Cannot have more availabilities than room size");
+        return;
+
+      }
+
       await newRoommate.save();
+
+
+      
+
       res.status(200).json("Roommate created!");
+
     } else {
+
       res.status(403).json("Action forbidden");
+
     }
+
   }
+
   catch (error) {
+
     res.status(500).json(error);
-  } 
+
+  }
+
 };
+
+
 
 // Get Roommate
 export const getRoommate = async (req, res) => {
