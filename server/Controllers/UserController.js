@@ -1,9 +1,12 @@
 import UserModel from "../Models/userModel.js";
+import mongoose from "mongoose";
+import needRoommateModel from "../Models/needRoommate.js"
+import needRoomModel from "../Models/needRoom.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // get all Users
-export const getAllUser = async (req, res) => {
+export const getAllUser = async (req, res) => {z
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
   console.log('Domain:', url);
@@ -50,6 +53,7 @@ export const getUser = async (req, res) => {
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
   console.log('Domain:', url);
+  console.log(id);
 
   if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
     res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
@@ -179,6 +183,7 @@ export const updateUser = async (req, res) => {
   try {
     // Retrieve the user from the database
     const user = await UserModel.findById(id);
+
 
     // Compare currentUserId with the retrieved user's id
     if (id === currentUserId) {
@@ -366,8 +371,17 @@ export const likeRoom = async (req, res) => {
   }
 
   const { roomId } = req.body;
+  
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(roomId)) {
+    return res.status(400).json({ message: "Invalid Room ID format" });
+    }
+    const roomExists = await needRoomModel.findById(roomId);
+    console.log(roomId);
+    if(!roomExists){
+      return res.status(403).json("Room Not Found");
+    }
     const user = await UserModel.findById(id);
     if (!user.likesRoom.includes(roomId)) {
       await user.updateOne({ $push: { likesRoom: roomId } });
@@ -397,6 +411,15 @@ export const likeRoommate = async (req, res) => {
   const { roommateId } = req.body;
 
   try {
+    if (!mongoose.Types.ObjectId.isValid(roommateId)) {
+    return res.status(400).json({ message: "Invalid Roommate ID format" });
+    }
+    const roommateExists = await needRoommateModel.findById(roommateId);
+    console.log(roommateId);
+    if(!roommateExists){
+      return res.status(403).json("Roommate Not Found");
+    }
+
     const user = await UserModel.findById(id);
     if (!user.likesRoommate.includes(roommateId)) {
       await user.updateOne({ $push: { likesRoommate: roommateId } });

@@ -66,7 +66,7 @@ export const getAllRoom = async (req, res) => {
   }
 
   try {
-    const { 
+    let { 
       page = 1, 
       limit = 10, 
       sort = "createdAt", 
@@ -76,6 +76,11 @@ export const getAllRoom = async (req, res) => {
       preferredBlock, 
       search 
     } = req.query;
+
+    // Fix: Ensure sort is not an empty string
+    if (!sort || sort.trim() === "") {
+      sort = "createdAt";
+    }
 
     const query = {};
 
@@ -101,6 +106,8 @@ export const getAllRoom = async (req, res) => {
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const sortOrder = order === "desc" ? -1 : 1;
+    
+    // This now uses a guaranteed non-empty string
     const sortOptions = { [sort]: sortOrder };
 
     const rooms = await needRoomModel
@@ -109,11 +116,7 @@ export const getAllRoom = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    const total = await needRoomModel.countDocuments(query);
-
-    res.status(200).json(
-      rooms
-    );
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

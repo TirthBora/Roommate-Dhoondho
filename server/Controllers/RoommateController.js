@@ -83,14 +83,23 @@ export const getRoommate = async (req, res) => {
 // Get all Roommates
 export const getAllRoommate = async (req, res) => {
   try {
-    // 1. Pagination & Sorting setup
     const page = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 10; 
     const skip = page * limit;
-    let sort = req.query.sort ? req.query.sort.split(",") : ["createdAt", "desc"];
-    let sortBy = { [sort[0]]: sort[1] === "asc" ? 1 : -1 };
 
-    // 2. Build the Query Object dynamically
+    // Fix: Validate that req.query.sort exists and isn't just an empty string
+    let sortParam = req.query.sort;
+    let sortField = "createdAt";
+    let sortOrder = -1;
+
+    if (sortParam && sortParam.trim() !== "") {
+      const parts = sortParam.split(",");
+      sortField = parts[0] || "createdAt";
+      sortOrder = parts[1] === "asc" ? 1 : -1;
+    }
+
+    let sortBy = { [sortField]: sortOrder };
+
     let query = {};
 
     if (req.query.gender && req.query.gender !== "All") {
@@ -105,9 +114,8 @@ export const getAllRoommate = async (req, res) => {
       query.preferredBlock = { $in: req.query.preferredBlock.split(",") };
     }
 
-    // 3. Execute query
     const roommates = await needRoommateModel
-      .find(query) // Use the dynamic query object here
+      .find(query)
       .sort(sortBy)
       .skip(skip)
       .limit(limit);
