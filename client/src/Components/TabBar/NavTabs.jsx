@@ -293,11 +293,12 @@ function DisplayRoommateCard() {
             let myUserId = profileData?.id;
             let requestBody = {
               roommateId: otherUserId,
+              currentUserId: userId
             };
 
             let result = await axios
               .put(
-                `${process.env.REACT_APP_SERVER_URL}/user/${myUserId}/likesRoommate`,
+                `${process.env.REACT_APP_SERVER_URL}/user/likesRoommate`,
                 requestBody
               )
               .catch((error) => {
@@ -335,69 +336,63 @@ function DisplayRoommateCard() {
     }
   }
 
-  async function RoomLiking(otherRoomId) {
-    try {
-      const roomResponse = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/room/all`
-      );
+async function RoomLiking(otherRoomId) {
+  try {
+    const roomResponse = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/room/all`
+    );
 
-      const roomDataResponse = roomResponse.data.find(
-        (room) => room._id === otherRoomId
-      );
+    const roomDataResponse = roomResponse.data.find(
+      (room) => room._id === otherRoomId
+    );
 
-      if (roomDataResponse) {
-        const roomGender = roomDataResponse.gender;
-        const roomuserId = roomDataResponse.userId;
-        if (roomuserId !== userId) {
-          if (
-            (userGender === "M" && roomGender === "M") ||
-            (userGender === "F" && roomGender === "F")
-          ) {
-            let myUserId = profileData?.id;
-            let requestBody = {
-              roomId: otherRoomId,
-            };
+    if (roomDataResponse) {
+      const roomGender = roomDataResponse.gender;
+      const roomuserId = roomDataResponse.userId;
 
-            let result = await axios
-              .put(
-                `${process.env.REACT_APP_SERVER_URL}/user/${myUserId}/likesroom`,
-                requestBody
-              )
-              .catch((error) => {
-                // Handle 404 errors here, you can simply ignore the error and return null or any other default value.
-                console.log(
-                  `Error fetching user details for user ID ${myUserId}:`,
-                  error
-                );
-                return null;
-              });
+      if (roomuserId !== userId) {
+        if (
+          (userGender === "M" && roomGender === "M") ||
+          (userGender === "F" && roomGender === "F")
+        ) {
+          let requestBody = {
+            roomId: otherRoomId,
+            currentUserId: userId
+          };
 
-            // console.log("result data: ", result.data);
+          let result = await axios
+            .put(
+              `${process.env.REACT_APP_SERVER_URL}/user/likesroom`,
+              requestBody
+            )
+            .catch((error) => {
+              console.log(
+                `Error updating likes for user ID ${userId}:`,
+                error
+              );
+              return null;
+            });
 
-            if (result.status === 200) {
-              // Update the check-icon immediately
-              toast.success(result.data);
-              const updatedLikeRoom = [...likeRoom];
-              if (!updatedLikeRoom.includes(otherRoomId)) {
-                updatedLikeRoom.push(otherRoomId);
-                setLikeRoom(updatedLikeRoom);
-              }
+          if (result && result.status === 200) {
+            toast.success(result.data);
+            const updatedLikeRoom = [...likeRoom];
+            if (!updatedLikeRoom.includes(otherRoomId)) {
+              updatedLikeRoom.push(otherRoomId);
+              setLikeRoom(updatedLikeRoom);
             }
-          } else {
-            toast.error("Error Code: NT05GM. Please contact MFC support.");
-            // alert("Broo.. In VIT we don't have coed hostels.");
           }
         } else {
-          toast.error("You can't select your own post.");
-          // alert("You can't select your own post.");
+          toast.error("Error Code: NT05GM. Please contact MFC support.");
         }
+      } else {
+        toast.error("You can't select your own post.");
       }
-    } catch (error) {
-      toast.error("Error Code: NT06GM. Please contact MFC support.");
-      console.error(error);
     }
+  } catch (error) {
+    toast.error("Error Code: NT06GM. Please contact MFC support.");
+    console.error(error);
   }
-
+}
   return (
     <>
       <div className="tabs">

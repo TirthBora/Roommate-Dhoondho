@@ -359,7 +359,7 @@ export const UnFollowUser = async (req, res) => {
 
 // follow/unfollow - like/unlike a room (trying 2nd method - smaller version).
 export const likeRoom = async (req, res) => {
-  const id = req.params.id;
+  
 
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
@@ -370,7 +370,8 @@ export const likeRoom = async (req, res) => {
     return;
   }
 
-  const { roomId } = req.body;
+  const { roomId,currentUserId } = req.body;
+  console.log(currentUserId,roomId);
   
 
   try {
@@ -382,7 +383,7 @@ export const likeRoom = async (req, res) => {
     if(!roomExists){
       return res.status(403).json("Room Not Found");
     }
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(currentUserId);
     if (!user.likesRoom.includes(roomId)) {
       await user.updateOne({ $push: { likesRoom: roomId } });
       res.status(200).json("Room liked");
@@ -397,7 +398,7 @@ export const likeRoom = async (req, res) => {
 
 // like/unlike a roommate
 export const likeRoommate = async (req, res) => {
-  const id = req.params.id;
+  
 
   // Check if the request has an 'Origin' header// Check if the request has an 'Origin' header
   const url = req.get('Origin');
@@ -408,7 +409,7 @@ export const likeRoommate = async (req, res) => {
     return;
   }
 
-  const { roommateId } = req.body;
+  const { currentUserId,roommateId } = req.body;
 
   try {
     if (!mongoose.Types.ObjectId.isValid(roommateId)) {
@@ -420,7 +421,7 @@ export const likeRoommate = async (req, res) => {
       return res.status(403).json("Roommate Not Found");
     }
 
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(currentUserId);
     if (!user.likesRoommate.includes(roommateId)) {
       await user.updateOne({ $push: { likesRoommate: roommateId } });
       res.status(200).json("Roommate liked");
