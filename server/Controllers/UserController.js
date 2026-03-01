@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // get all Users
-export const getAllUser = async (req, res) => {z
+export const getAllUser = async (req, res) => {
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
   console.log('Domain:', url);
