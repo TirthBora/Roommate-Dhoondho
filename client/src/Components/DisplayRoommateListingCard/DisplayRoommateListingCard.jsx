@@ -38,13 +38,14 @@ function DisplayRoommateListingCard() {
 
   const deleteRoommate = async (roommate_id) => {
     try {
-      const user_Id = profileData?.user?._id;
+      const user_Id = profileData?.user?._id || profileData?.id;
       const requestBody = {
         userId: user_Id,
+        roommateId: roommate_id,
       };
 
-      const response = await axios.delete(
-        `${process.env.REACT_APP_SERVER_URL}/roommate/${roommate_id}`,
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/roommate/delete`,
         {
           data: requestBody,
         }
@@ -52,7 +53,7 @@ function DisplayRoommateListingCard() {
 
       toast.success("Roommate deleted successfully!");
       setRoommates((prevRoommates) =>
-        prevRoommates.filter((roommate) => roommate?._id !== roommate_id)
+        prevRoommates.filter((roommate) => (roommate?._id || roommate?.id) !== roommate_id)
       );
     } catch (error) {
       toast.error("Failed to delete roommate");

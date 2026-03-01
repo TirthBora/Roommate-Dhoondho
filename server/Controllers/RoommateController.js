@@ -159,25 +159,25 @@ export const updateRoommate = async (req, res) => {
 // Delete a Roommate
 export const deleteRoommate = async (req, res) => {
   const url = req.get('Origin');
-  const id = req.params.id;
+  
 
   if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
     res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
     return;
   }
 
-  const { userId, roomId } = req.body;
+  const { userId, roommateId } = req.body;
 
   try {
     
-    const roommate = await needRoommateModel.findById(roomId);
+    const roommate = await needRoommateModel.findById(roommateId);
 
     if (!roommate) {
       res.status(404).json("Roommate record not found");
       return;
     }
     console.log(roommate.userId,userId);
-    if (roommate.userId.toString() === id) {
+    if (roommate.userId.toString() === userId) {
       await roommate.deleteOne();
       res.status(200).json("Roommate deleted successfully");
     } else {
