@@ -88,38 +88,70 @@
   padding-top: 20px;
 }
 .tab-dropdownbuttons {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 8px;
+  display: flex;
+  gap: 12px;
   list-style: none;
-  align-items: center;
+  align-items: flex-end;
   text-align: center;
   width: 70vw;
   justify-content: end;
 }
 
+.custom-select {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dropdown-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #06105A;
+  margin-bottom: 4px;
+  padding-left: 12px;
+  font-family: "Causten-Medium", Helvetica;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
 .custom-select select,
 .custom-select-2 select {
-  color: #7e8490;
-  width: 120px;
-  height: 40px;
-  font-size: medium;
-  border-radius: 40px;
-  padding-left: 20px;
-  border-color: #7e8490;
-  border-width: 2px;
-  background-color: white;
+  color: #3a3f4b;
+  width: 140px;
+  height: 38px;
+  font-size: 13px;
+  border-radius: 10px;
+  padding-left: 14px;
+  padding-right: 30px;
+  border: 1.5px solid #c5c8d0;
+  background-color: #f8f9fb;
+  cursor: pointer;
+  transition: all 0.2s ease;
   /* needed */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  /* SVG background image */
-  background-image: url("/public/image/arrow-down-.png");
-  background-size: 0.6em;
-  background-position: calc(100% - 0.8em);
+  /* SVG chevron arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: 12px;
+  background-position: calc(100% - 10px) center;
   background-repeat: no-repeat;
   font-family: "Causten-Medium", Helvetica;
 }
+
+.custom-select select:hover,
+.custom-select-2 select:hover {
+  border-color: #06105A;
+  background-color: #f0f1f8;
+}
+
+.custom-select select:focus,
+.custom-select-2 select:focus {
+  outline: none;
+  border-color: #06105A;
+  box-shadow: 0 0 0 3px rgba(6, 16, 90, 0.1);
+}
+
 .custom-select-2 option,
 .custom-select option {
   font-family: "Causten-Medium", Helvetica;

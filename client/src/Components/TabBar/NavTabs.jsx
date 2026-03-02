@@ -938,6 +938,7 @@ const TabButtons = ({
         })}
         <div className="tab-dropdownbuttons">
           <div className="custom-select">
+            <label className="dropdown-label">Sort: Rank</label>
             <select
               onChange={(e) =>
                 filterByGenderAndBlock(
@@ -949,13 +950,14 @@ const TabButtons = ({
               }
             >
               <option hidden value="createdAt">
-                Rank
+                Default
               </option>
-              <option value="rank,asc">Increasing</option>
-              <option value="rank,desc">Decreasing</option>
+              <option value="rank,asc">↑ Low to High</option>
+              <option value="rank,desc">↓ High to Low</option>
             </select>
           </div>
           <div className="custom-select">
+            <label className="dropdown-label">Filter: Year</label>
             <select
               onChange={(e) =>
                 filterByGenderAndBlock(
@@ -967,16 +969,17 @@ const TabButtons = ({
               }
             >
               <option hidden value="Year">
-                Year
+                All Years
               </option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="All">All</option>
+              <option value="1">Year 1</option>
+              <option value="2">Year 2</option>
+              <option value="3">Year 3</option>
+              <option value="4">Year 4</option>
+              <option value="All">All Years</option>
             </select>
           </div>
           <div className="custom-select">
+            <label className="dropdown-label">Filter: Block</label>
             <select
               onChange={(e) =>
                 filterByGenderAndBlock(
@@ -988,11 +991,11 @@ const TabButtons = ({
               }
             >
               <option hidden value="Block">
-                Block
+                All Blocks
               </option>
               {blockOptions.map((block) => (
                 <option key={block} value={block}>
-                  {block}
+                  {block} Block
                 </option>
               ))}
             </select>
