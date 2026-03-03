@@ -84,7 +84,7 @@ mongoose
   // app.set("view engine", "ejs");
   // app.use(express.static(__dirname + "/public"));
   app.get('/', (req, res) => {
-    return res.json("Backend Server By Abhinav Garg --> TechHead MFC");
+    return res.json("Backend Server By TechTeamMFC");
   });
 
   app.use(
