@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'server/**' # Only trigger when the backend changes
+      - 'server/**' # Only triggers when backend changes
   workflow_dispatch:
 
 jobs:
@@ -18,22 +18,22 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Updated to v4
         with:
           node-version: '20.x'
 
       - name: npm install, build, and test
-        working-directory: ./server # Moves context to the backend folder
+        working-directory: ./server
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4 # Updated to v4
         with:
           name: node-app
-          path: ./server # Only uploads the backend files
+          path: ./server # Only packages the backend folder
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,10 +44,10 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4 # Updated to v4
         with:
           name: node-app
-          path: ./server-app # Extracts to a specific folder to avoid root clutter
+          path: ./server-app # Extracts to a clean directory
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -62,4 +62,4 @@ jobs:
         with:
           app-name: 'RD'
           slot-name: 'Production'
-          package: ./server-app # Deploys only the backend code
+          package: ./server-app # Points to the extracted v4 artifact
