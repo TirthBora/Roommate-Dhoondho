@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import secureLocalStorage from "react-secure-storage";
 import { jwtDecode } from "jwt-decode";
@@ -11,7 +11,6 @@ import blob3 from "../../Assets/login-page/blob3.svg";
 import blob4 from "../../Assets/login-page/blob4.svg";
 import blob11 from "../../Assets/login-page/blob11.svg";
 import signinImage from "../../Assets/login-page/signin-image.png";
-import logo from "../../Assets/logo.png";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -30,7 +29,7 @@ function SignIn() {
 
         toast.success("Login successful!");
         navigate("/profile", { replace: true });
-      } catch (error) {
+      } catch {
         toast.error("Invalid token. Please log in again.");
         navigate("/signin", { replace: true });
       }
@@ -43,96 +42,77 @@ function SignIn() {
 
   return (
     <div className="relative min-h-screen w-full bg-white overflow-hidden">
+
+      {/* HEADER */}
       <Header />
 
-      {/* LOGO */}
-      {/* <img
-        src={logo}
-        alt="Logo"
-        className="absolute top-0 left-0 w-[150px] z-20"
-      /> */}
-
-      {/* RIGHT RECTANGLE BACKGROUND */}
-      <div className="absolute top-0 right-0 h-full w-1/2 hidden lg:block z-0" />
-
-      {/* BLOBS */}
+      {/* BACKGROUND BLOBS */}
       <img
         src={blob2}
         alt=""
-        className="absolute top-0 right-0 h-full opacity-40 z-0"
+        className="absolute top-0 right-0 h-full opacity-40 pointer-events-none"
       />
 
       <img
         src={blob1}
         alt=""
-        className="absolute bottom-0 right-[18%] w-[260px] opacity-50 z-0"
+        className="absolute bottom-0 right-[18%] w-[260px] opacity-50 pointer-events-none"
       />
 
       <img
         src={blob3}
         alt=""
-        className="absolute left-[40%] top-[20%] w-[250px] opacity-40 z-0"
+        className="absolute left-[40%] top-[20%] w-[250px] opacity-40 pointer-events-none"
       />
 
       <img
         src={blob4}
         alt=""
-        className="absolute bottom-0 left-0 w-[240px] opacity-40 z-0"
+        className="absolute bottom-0 left-0 w-[240px] opacity-40 pointer-events-none"
       />
 
       <img
         src={blob11}
         alt=""
-        className="absolute top-0 right-[200px] w-[260px] opacity-50 z-0"
+        className="absolute top-0 right-[200px] w-[260px] opacity-50 pointer-events-none"
       />
 
       {/* MAIN GRID */}
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-        {/* LEFT SECTION */}
-        <div className="flex flex-col items-start justify-start pt-28 pl-12 md:pl-20 pr-8">
-          <div className="hidden lg:block absolute top-[62px] left-[120px] w-[595px] h-[610px] rounded-[27px] overflow-hidden">
+
+        {/* LEFT IMAGE */}
+        <div className="hidden lg:flex items-center  justify-center ">
+          <div className="rounded-2xl overflow-hidden w-[750px] mt-[35px] mb-[35px] ml-[45px] shadow-2xl max-w-[1000px] h-[750px]">
             <img
               src={signinImage}
-              alt="Sign In"
+              alt="Sign In Illustration"
               className="w-full h-full object-cover"
             />
           </div>
         </div>
 
-        {/* RIGHT SECTION */}
-        <div className="flex flex-col justify-center items-center px-6 sm:px-8 md:px-12 lg:px-16 w-full min-h-screen">
-          <div className="w-full max-w-[420px] flex flex-col items-center text-center mx-auto">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-3">
+        {/* RIGHT LOGIN CARD */}
+        <div className="flex items-center justify-center">
+
+          <div className=" flex flex-col items-center justify-center w-full max-w-[600px]  h-[400px] max-h-[500px] bg-white/70 backdrop-blur-lg shadow-2xl rounded-3xl p-10 text-center border border-gray-200">
+
+            <h1 className="text-5xl font-bold mb-7">
               Welcome back!
             </h1>
 
-            <p className="text-gray-600 mb-8">
+            <p className="text-gray-500 mb-10 text-xl">
               Sign in using your VIT credentials
             </p>
 
             <button
               onClick={handleGoogleLogin}
-              className="w-full bg-[#8DB255] hover:bg-[#7da64a] text-white font-semibold py-3 rounded-lg transition"
+              className="w-full bg-[#8DB255] hover:bg-[#7da64a] text-white font-semibold py-5 rounded-2xl transition duration-200 shadow-md"
             >
               Sign in with Google
             </button>
 
-            {/* <div className="flex items-center w-full my-6">
-              <div className="flex-1 h-[1px] bg-gray-400" />
-              <span className="mx-4 text-gray-500">OR</span>
-              <div className="flex-1 h-[1px] bg-gray-400" />
-            </div> */}
-
-            {/* <p className="text-gray-600 text-center w-full">
-              Don't have an account?
-              <Link
-                to="/signup"
-                className="ml-2 underline font-medium text-black"
-              >
-                Sign Up here
-              </Link>
-            </p> */}
           </div>
+
         </div>
       </div>
     </div>
