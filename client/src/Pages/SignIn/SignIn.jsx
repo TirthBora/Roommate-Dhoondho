@@ -82,7 +82,7 @@ function SignIn() {
 
         {/* LEFT IMAGE */}
         <div className="hidden lg:flex items-center  justify-center ">
-          <div className="rounded-2xl overflow-hidden w-[750px] mt-[35px] mb-[35px] ml-[45px] shadow-2xl max-w-[1000px] h-[750px]">
+          <div className="rounded-2xl overflow-hidden w-[600px] mb-[30px]  ml-[15px] shadow-2xl max-w-[750px] h-[600px]">
             <img
               src={signinImage}
               alt="Sign In Illustration"
@@ -92,15 +92,15 @@ function SignIn() {
         </div>
 
         {/* RIGHT LOGIN CARD */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center mr-[5px] ml-[5px] justify-center ">
 
-          <div className=" flex flex-col items-center justify-center w-full max-w-[600px]  h-[400px] max-h-[500px] bg-white/70 backdrop-blur-lg shadow-2xl rounded-3xl p-10 text-center border border-gray-200">
+          <div className=" flex flex-col items-center justify-center w-full max-w-[500px]  h-[350px] max-h-[500px] bg-white/70 backdrop-blur-lg shadow-2xl rounded-3xl p-10 text-center border border-gray-200">
 
-            <h1 className="text-5xl font-bold mb-7">
+            <h1 className="text-4xl font-bold mb-7">
               Welcome back!
             </h1>
 
-            <p className="text-gray-500 mb-10 text-xl">
+            <p className="text-gray-500 mb-10 text-large">
               Sign in using your VIT credentials
             </p>
 
