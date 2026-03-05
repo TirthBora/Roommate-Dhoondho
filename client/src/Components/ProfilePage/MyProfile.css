@@ -1,488 +1,13 @@
-form {
-  display: flex;
-  flex-direction: column;
-}
+/* ---------- PAGE ---------- */
 
-.form-section-1 input,
-.form-section-2 input {
-  padding: 1rem;
-  font-size: 1rem;
-}
-
-.errorMsg {
-  font-family: "Causten-Regular", Helvetica;
-  color: #ee1d52;
-}
-
-.form-section-1 {
-  margin: 2rem 0 0 0;
-  display: grid;
-  grid-template-columns: 47.5% 47.5%;
-  column-gap: 5%;
-}
-
-.form-section-1a,
-.form-section-1b {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-section-1a label,
-.form-section-1b label {
-  margin-bottom: 4px;
-}
-
-.form-section-1a input,
-.form-section-1b input {
-  margin-bottom: 4px;
-  background-color: #d9d9d9;
-  border-radius: 8px;
-  height: 3rem;
-}
-
-.form-section-2 {
-  margin: 2rem 0 0 0;
-  display: grid;
-  grid-template-columns: 47.5% 47.5%;
-  column-gap: 5%;
-}
-
-.form-section-2a,
-.form-section-2b {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-section-2a label,
-.form-section-2b label {
-  margin-bottom: 4px;
-}
-
-.form-section-2a input,
-.form-section-2b input {
-  margin-bottom: 4px;
-  background-color: #d9d9d9;
-  border-radius: 8px;
-  height: 3rem;
-}
-
-.form-section-3 {
-  margin: 2rem 0 0 0;
-  display: grid;
-  grid-template-columns: 47.5% 47.5%;
-  column-gap: 5%;
-}
-
-.form-section-3b {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-section-3b label {
-  margin-bottom: 4px;
-}
-
-.form-section-3b input {
-  padding: 1rem;
-  font-size: 1rem;
-  margin-bottom: 4px;
-  background-color: #d9d9d9;
-  border-radius: 8px;
-  height: 3rem;
-}
-
-.input-group {
-  position: relative;
-}
-
-.form-section-3 .flex {
-  height: 80px;
-  outline: none;
-  border: 2px solid #7e8490;
-  width: 42.7vw;
-  border-radius: 10px;
-}
-
-.form-section-3 .flex label {
-  transform: translateX(14%) translateY(-52.5%) scale(1);
-  background-color: #ffffff;
-  padding: 0 0.2em;
-  color: #000000;
-  height: fit-content;
-  position: absolute;
-}
-
-.form-section-3-border {
-  width: 43vw;
-  display: flex;
-  padding-left: 5%;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.male,
-.female {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 3rem;
-}
-
-.form-section-4 button {
-  margin: 2rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.form-section-5 hr {
-  margin: 2.5rem 0 0 0;
-}
-
-@media screen and (max-width: 660px) {
-  .form-section-1 {
-    margin: 2rem 0 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-section-1a {
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 1rem 0;
-  }
-
-  .form-section-1b {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-  }
-
-  .form-section-2 {
-    margin: 1rem 0 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-section-2a,
-  .form-section-2b {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
-  }
-
-  .form-section-3 {
-    margin: 2rem 0 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-section-3b {
-    display: flex;
-    flex-direction: column;
-    margin: 2rem 0 0 0;
-  }
-
-  .form-section-3-border {
-    width: 90vw;
-    display: flex;
-    padding-left: 12%;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .form-section-3 .flex {
-    height: 80px;
-    outline: none;
-    border: 2px solid #7e8490;
-    width: 89.7vw;
-    border-radius: 10px;
-  }
-}
-
-.profile {
+.profile-page {
   font-family: "Causten-SemiBold", Helvetica;
-  margin: 0 auto;
-  width: 90%;
-  height: 100%;
-  padding-bottom: 10px;
-  display: block;
+  min-height: 100vh;
 }
 
-.profile-buttons {
-  display: flex;
-  flex-direction: column;
-  height: 80px;
-  padding-top: 10px;
-  margin-bottom: 10px;
-}
+/* ---------- PROFILE SPLIT LAYOUT ---------- */
 
-.profile .activeprofile {
-  height: 80px;
-  width: 120px;
-  border-bottom: 2px solid #000000;
-  color: #000000;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.profiletab-hr {
-  margin-top: 10px;
-}
-
-.profile-text {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  font-weight: bolder;
-  font-size: 32px;
-}
-
-.cards {
-  place-items: center;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
-  margin-bottom: 8%;
-}
-
-@media screen and (max-width: 950px) {
-  .cards {
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3%;
-    margin-bottom: 8%;
-  }
-}
-
-@media screen and (max-width: 468px) {
-  .tab-buttons {
-    display: flex;
-    padding-top: 10px;
-    height: 50px;
-    margin-bottom: 10px;
-  }
-
-  .tabs button {
-    margin-right: 10px;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    outline: none;
-    padding: 0px 20px;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.4);
-    transition: all ease-in-out 0.2s;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-  }
-
-  .tabs .nonactive {
-    height: 50px;
-    width: 120px;
-    color: #7e8490;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .tabs .activeprofile {
-    height: 50px;
-    width: 120px;
-    border-bottom: 2px solid #000000;
-    color: #000000;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .roomate-icon img {
-    margin-bottom: 0px;
-    height: 28px;
-    width: 28px;
-  }
-
-  .roomate-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.listing {
-  font-family: "Causten-SemiBold", Helvetica;
-  margin: 0 auto;
-  width: 90%;
-  height: 100%;
-  padding-bottom: 10px;
-  display: block;
-}
-
-.listing-buttons {
-  display: flex;
-  flex-direction: column;
-  height: 80px;
-  padding-top: 10px;
-  margin-bottom: 10px;
-}
-
-.listing .activelisting {
-  height: 80px;
-  width: 180px;
-  border-bottom: 2px solid #000000;
-  color: #000000;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.listingtab-hr {
-  margin-top: 10px;
-}
-
-.listing-text {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  font-weight: bolder;
-  font-size: 24px;
-  white-space: nowrap;
-}
-
-.cards {
-  place-items: center;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
-  margin-bottom: 8%;
-}
-
-@media screen and (max-width: 950px) {
-  .cards {
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3%;
-    margin-bottom: 8%;
-  }
-}
-
-@media screen and (max-width: 468px) {
-  .tab-buttons {
-    display: flex;
-    padding-top: 10px;
-    height: 50px;
-    margin-bottom: 10px;
-  }
-
-  .tabs button {
-    margin-right: 10px;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    outline: none;
-    padding: 0px 20px;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.4);
-    transition: all ease-in-out 0.2s;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-  }
-
-  .tabs .nonactive {
-    height: 50px;
-    width: 120px;
-    color: #7e8490;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .tabs .activeprofile {
-    height: 50px;
-    width: 120px;
-    border-bottom: 2px solid #000000;
-    color: #000000;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .roomate-icon img {
-    margin-bottom: 0px;
-    height: 28px;
-    width: 28px;
-  }
-
-  .roomate-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.loading-indicator-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.form-section-6 {
-  display: flex;
-  flex-direction: column;
-  margin: 1rem 0;
-}
-
-.form-section-6 input {
-  margin-bottom: 4px;
-  background-color: #d9d9d9;
-  border-radius: 8px;
-  height: 3rem;
-}
-
-.form-section-6 label {
-  margin-bottom: 4px;
-}
-
-.handlereset {
-  color: #000000;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.add-button-inner {
-  display: inline-block;
-  padding: 5px 10px;
-  border: 2px solid #000;
-  border-radius: 10px;
-  background-color: #fff;
-  color: #000;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-  margin-bottom: 10px;
-}
-
-.add-button-inner.active {
-  background-color: #000;
-  color: #fff;
-}
-
-.add-button-inner:active {
-  background-color: #333;
-  /* Darker color when button is pressed */
-}
-
-/* New Split Profile Styles */
-.profile-split-container {
+.profile-container {
   display: flex;
   gap: 2rem;
   margin: 2rem auto;
@@ -491,11 +16,13 @@ form {
   padding-bottom: 2rem;
 }
 
-@media (max-width: 800px) {
-  .profile-split-container {
+@media (max-width: 900px) {
+  .profile-container {
     flex-direction: column;
   }
 }
+
+/* ---------- LEFT PROFILE CARD ---------- */
 
 .profile-left-box {
   flex: 0 0 35%;
@@ -505,8 +32,9 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: fit-content;
   padding: 3rem 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .avatar-wrapper {
@@ -514,8 +42,8 @@ form {
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border: 4px solid rgba(255,255,255,0.4);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
   background-color: #e6f0f9;
 }
@@ -530,25 +58,26 @@ form {
   font-size: 24px;
   font-weight: 700;
   color: #333;
-  margin: 0;
 }
+
+/* ---------- RIGHT FORM CARD ---------- */
 
 .profile-right-box {
   flex: 1;
   background-color: #A6C8E6;
   border-radius: 20px;
   padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .box-heading {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
-  color: #333;
   text-align: center;
   margin-bottom: 2rem;
-  margin-top: 0;
 }
+
+/* ---------- FORM GRID ---------- */
 
 .profile-form-grid {
   display: grid;
@@ -557,11 +86,13 @@ form {
   column-gap: 2rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .profile-form-grid {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- FORM GROUP ---------- */
 
 .form-group {
   display: flex;
@@ -584,14 +115,24 @@ form {
   font-size: 16px;
   color: #333;
   outline: none;
-  transition: box-shadow 0.2s;
   width: 100%;
   box-sizing: border-box;
+  transition: box-shadow 0.2s;
 }
 
 .form-group input:focus {
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5);
 }
+
+/* ---------- ERROR TEXT ---------- */
+
+.errorMsg {
+  font-family: "Causten-Regular", Helvetica;
+  color: #ee1d52;
+  font-size: 13px;
+}
+
+/* ---------- GENDER TOGGLE ---------- */
 
 .gender-toggle {
   display: flex;
@@ -599,13 +140,12 @@ form {
   background-color: #E2EBF5;
   border-radius: 12px;
   padding: 6px;
-  height: auto;
 }
 
 .gender-btn {
   flex: 1;
   text-align: center;
-  padding: 8px 0;
+  padding: 10px 0;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -616,16 +156,78 @@ form {
 .gender-btn.selected {
   background-color: #fff;
   color: #000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* ---------- SUBMIT BUTTON ---------- */
+
 .submit-btn {
-  transition: transform 0.2s, opacity 0.2s;
-  cursor: pointer;
+  margin-top: 1rem;
+  background-color: #d98548;
+  color: #fff;
+  padding: 12px 40px;
+  border-radius: 10px;
+  font-weight: bold;
   border: none;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
   opacity: 0.9;
+}
+
+/* ---------- LISTINGS ---------- */
+
+.listing {
+  width: 90%;
+  margin: 3rem auto;
+}
+
+.listing-buttons {
+  display: flex;
+  height: 80px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+.activelisting {
+  height: 80px;
+  width: 180px;
+  border-bottom: 2px solid #000000;
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.listing-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* ---------- LISTING CARDS ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
+  place-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 950px) {
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ---------- LOADING SCREEN ---------- */
+
+.loading-indicator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
 }
