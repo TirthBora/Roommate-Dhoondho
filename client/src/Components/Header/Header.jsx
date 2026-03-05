@@ -1,25 +1,20 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../Assets/logo.png";
 import "./Header.css";
+
 function Header() {
   const { pathname } = useLocation();
   const navigation = useNavigate();
-  let isLogin = pathname === "/";
+
   const [sideBarOpen, setSideBarOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const languageSelectRef = useRef(null);
 
-  const navSideBarOpen = () => {
-    setSideBarOpen(true);
-  };
-
-  const navSideBarClose = () => {
-    setSideBarOpen(false);
-  };
+  const navSideBarOpen = () => setSideBarOpen(true);
+  const navSideBarClose = () => setSideBarOpen(false);
 
   function isActiveLink(item) {
     return pathname === item.href;
@@ -31,175 +26,197 @@ function Header() {
 
   const navItems = [
     { name: "Login", href: "/", loginNotRequired: true },
+    { name: "Sign Up", href: "/signUp", loginNotRequired: true },
     {
-      name: "Sign Up",
-      href: "/signUp",
+      name: "Support",
+      href: "https://forms.gle/srKbHdG9oPshAGXF9",
+      target: "_blank",
       loginNotRequired: true,
     },
-    { name: "Support", href: "https://forms.gle/srKbHdG9oPshAGXF9", target: "_blank", loginNotRequired: true },
   ];
 
   const handleLanguageChange = (e) => {
     if (e.target.value === "kr-KR") {
       setShowModal(true);
-      languageSelectRef.current.value = "en-US";
+
+      // reset dropdown back to english
+      if (languageSelectRef.current) {
+        languageSelectRef.current.value = "en-US";
+      }
     }
   };
 
   useEffect(() => {
     if (showModal) {
-      toast.info("Do you even know this language. Why bother selecting ;)", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-      });
+      toast.info(
+        "라… 한국어로 바꾸셨네요? 안녕하세요 해커님(Why are you trying? You don’t know Korean )",
+        {
+          position: "top-center",
+          autoClose: 3500,
+        }
+      );
       setShowModal(false);
     }
   }, [showModal]);
 
   return (
-    <header className="flex justify-between px-[1rem] border-b-[#BEBCBD] border-b-[1px]">
+    <header className="flex items-center justify-between px-4 border-b border-[#BEBCBD] relative">
+
+      {/* LOGO */}
       <img
-        onClick={() => {
-          navigation("/");
-        }}
+        onClick={() => navigation("/")}
         alt="room-mate-dhoondo-logo"
         src={logo}
-        className="h-[60px] cursor-pointer "
+        className="h-[60px] cursor-pointer"
       />
-      <div className="mr-[2rem] hidden md:flex justify-center items-center">
-      <select ref={languageSelectRef} className="mr-8 p-[0.5rem]" onChange={e => handleLanguageChange(e)}>
-          <option value="en-US" selected>
-            English (United States)
-          </option>
-          <option value="kr-KR">
-            한국어 (대한민국)
-          </option>
-          {/* <option value="en-GB">English (United Kingdom)</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option> */}
-        </select>
 
-        {/* <a href="https://forms.gle/srKbHdG9oPshAGXF9" target="_blank" rel="noopener noreferrer">
-          <button
-            className={`rounded-[8px] md:px-[2.25rem] md:py-[0.5rem]  ml-[2rem]`}
-          >
-            Support
-          </button>
-        </a> */}
+      {/* LANGUAGE SELECTOR (Desktop) */}
+      <div className="hidden md:flex items-center relative z-40">
+        <select
+          ref={languageSelectRef}
+          className="p-2 border rounded-md bg-white cursor-pointer text-sm md:text-base"
+          onChange={handleLanguageChange}
+          defaultValue="en-US"
+        >
+          <option value="en-US">English (United States)</option>
+
+          <option value="kr-KR">한국어 (대한민국)</option>
+        </select>
       </div>
-      <div className="flex items-center justify-center md:hidden">
+
+      {/* MOBILE MENU BUTTON */}
+      <div className="flex items-center md:hidden">
         {!sideBarOpen ? (
-          <button onClick={navSideBarOpen} className="cursor-pointer">
+          <button onClick={navSideBarOpen}>
             <MenuIcon />
           </button>
         ) : (
-          <button onClick={navSideBarClose} className="cursor-pointer">
+          <button onClick={navSideBarClose}>
             <CloseIcon />
           </button>
         )}
-        {sideBarOpen ? (
-          <div className="absolute left-0 top-0 h-[100vh] w-[100vw] bg-[white] z-50 ">
-            <div className="flex justify-between px-4">
-              <img
-                onClick={() => {
-                  navigation("/");
-                }}
-                alt="room-mate-dhoondo-logo"
-                src={logo}
-                className="h-[60px] cursor-pointer "
-              />
-              <button onClick={navSideBarClose} className="cursor-pointer">
-                <CloseIcon />
-              </button>
-            </div>
-            {navItems.map((nav) =>
-              nav.loginNotRequired ? (
-                nav.target ? (
-                  <a
-                    key={nav.name}
-                    onClick={navSideBarClose}
-                    className={classNames(
-                      `text-xl flex items-center mt-2 py-4 px-8 border-white hover:border-orange transform duration-short ease-in`
-                    )}
-                    role="button"
-                    href={nav.href}
-                    target={nav.target}
-                    rel="noopener noreferrer"
-                  >
-                    <div className="flex flex-col w-fit">
-                      <span className={`text-base font-normal capitalize `}>
-                        {nav.name}
-                      </span>
-                      {isActiveLink(nav) ? (
-                        <span className="w-[100%] h-[4px] bg-[#06105A]"></span>
-                      ) : null}
-                    </div>
-                  </a>
-                ) : (
-                  <Link
-                    key={nav.name}
-                    onClick={navSideBarClose}
-                    className={classNames(
-                      `text-xl flex items-center mt-2 py-4 px-8 border-white hover:border-orange transform duration-short ease-in`
-                    )}
-                    role="button"
-                    to={{ pathname: nav.href, hash: nav.hash }}
-                  >
-                    <div className="flex flex-col w-fit">
-                      <span className={`text-base font-normal capitalize `}>
-                        {nav.name}
-                      </span>
-                      {isActiveLink(nav) ? (
-                        <span className="w-[100%] h-[4px] bg-[#06105A]"></span>
-                      ) : null}
-                    </div>
-                  </Link>
-                )
-              ) : null
-            )}
-          </div>
-        ) : null}
       </div>
+
+      {/* MOBILE SIDEBAR */}
+      {sideBarOpen && (
+        <div className="absolute left-0 top-0 h-screen w-screen bg-white z-50">
+
+          {/* SIDEBAR HEADER */}
+          <div className="flex justify-between items-center px-4 py-3 border-b">
+            <img
+              onClick={() => {
+                navigation("/");
+                navSideBarClose();
+              }}
+              alt="room-mate-dhoondo-logo"
+              src={logo}
+              className="h-[50px] cursor-pointer"
+            />
+
+            <button onClick={navSideBarClose}>
+              <CloseIcon />
+            </button>
+          </div>
+
+          {/* MOBILE LANGUAGE SELECTOR */}
+          <div className="p-6">
+            <select
+              ref={languageSelectRef}
+              className="w-full p-2 border rounded-md"
+              onChange={handleLanguageChange}
+              defaultValue="en-US"
+            >
+              <option value="en-US">English</option>
+              <option value="zh-CN">Chinese</option>
+              <option value="kr-KR">Korean</option>
+            </select>
+          </div>
+
+          {/* NAV ITEMS */}
+          {navItems.map((nav) =>
+            nav.loginNotRequired ? (
+              nav.target ? (
+                <a
+                  key={nav.name}
+                  onClick={navSideBarClose}
+                  className={classNames(
+                    "text-xl flex items-center mt-2 py-4 px-8 hover:bg-gray-100 transition"
+                  )}
+                  href={nav.href}
+                  target={nav.target}
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex flex-col w-fit">
+                    <span className="text-base font-normal capitalize">
+                      {nav.name}
+                    </span>
+
+                    {isActiveLink(nav) && (
+                      <span className="w-full h-[4px] bg-[#06105A]" />
+                    )}
+                  </div>
+                </a>
+              ) : (
+                <Link
+                  key={nav.name}
+                  onClick={navSideBarClose}
+                  className={classNames(
+                    "text-xl flex items-center mt-2 py-4 px-8 hover:bg-gray-100 transition"
+                  )}
+                  to={{ pathname: nav.href }}
+                >
+                  <div className="flex flex-col w-fit">
+                    <span className="text-base font-normal capitalize">
+                      {nav.name}
+                    </span>
+
+                    {isActiveLink(nav) && (
+                      <span className="w-full h-[4px] bg-[#06105A]" />
+                    )}
+                  </div>
+                </Link>
+              )
+            ) : null
+          )}
+        </div>
+      )}
     </header>
   );
 }
 
 export default Header;
 
+
+
+/* MENU ICON */
 export const MenuIcon = () => {
   return (
     <svg
-      stroke="currentColor"
       fill="black"
-      strokeWidth={0}
       viewBox="0 0 1024 1024"
-      className="h-4 w-4 sm:h-5 sm:w-5 text-white"
-      height="1em"
-      width="1em"
-      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
     >
-      <path d="M904 160H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0 624H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0-312H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8z" />
+      <path d="M904 160H120v80h784v-80zm0 312H120v80h784v-80zm0 312H120v80h784v-80z" />
     </svg>
   );
 };
 
+
+
+/* CLOSE ICON */
 export const CloseIcon = () => {
   return (
     <svg
-      stroke="currentColor"
       fill="none"
-      strokeWidth={0}
+      stroke="currentColor"
       viewBox="0 0 24 24"
-      className="h-7 w-7 cursor-pointer"
-      height="1em"
-      width="1em"
-      xmlns="http://www.w3.org/2000/svg"
+      className="h-7 w-7"
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={2}
-        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        strokeWidth="2"
+        d="M6 18L18 6M6 6l12 12"
       />
     </svg>
   );
